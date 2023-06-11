@@ -14,17 +14,30 @@ function Gyms() {
     }, []);
 
     return (
-        <>
+        <div>
             <h1>All Gyms</h1>
-            <Link to="/gyms/new">Add new gym</Link>
-            <ul>
-                {gyms?.length ? (
-                    gyms.map((gym, idx) => <li key={idx}>
-                        <Link to={`/gyms/${gym._id}`}>{gym.title}</Link>
-                    </li>)
-                ) : <h2>No data</h2>}
-            </ul>
-        </>
+            {gyms?.length ? (
+                gyms.map((gym, idx) => <div key={idx}>
+                    <div className="card mb-3">
+                        <div className="row">
+                            <div className="col-md-4">
+                                <img src={gym.image} className="img-fluid" alt="" />
+                            </div>
+                            <div className="col-md-8">
+                                <div className="card-body">
+                                    <h5 className="card-title">{gym.title}</h5>
+                                    <p className="card-text">{gym.description}</p>
+                                    <p className="card-text">
+                                        <small className="text-muted">{gym.location}</small>
+                                    </p>
+                                    <Link className="btn btn-primary" to={`/gyms/${gym._id}`}>VIEW</Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>)
+            ) : <h2>No data</h2>}
+        </div>
     )
 }
 

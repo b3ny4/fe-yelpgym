@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 
 function Edit() {
 
@@ -18,14 +17,17 @@ function Edit() {
             let res = await axios.get(`http://localhost:3001/gyms/${gymid}`);
             setGym(res.data);
         })()
-    }, []);
+    }, [gymid]);
 
     const onFormSubmit = async (e) => {
         e.preventDefault();
 
         const gym = {
             title: e.target[0].value,
-            location: e.target[1].value
+            location: e.target[1].value,
+            image: e.target[2].value,
+            price: e.target[3].value,
+            description: e.target[4].value
         }
 
         let res = await axios.put(`/gyms/${gymid}`, gym);
@@ -33,21 +35,41 @@ function Edit() {
     }
 
     return (
-        <>
-            <h1>Edit Gym</h1>
-            <form onSubmit={onFormSubmit}>
-                <div>
-                    <label htmlFor="title">Title:</label>
-                    <input type="text" name="title" id="title" defaultValue={gym?.title || ""} />
+        <div>
+            <div className="row">
+                <h1 className="text-center">Edit Gym</h1>
+                <div className="col-6 offset-3">
+                    <form onSubmit={onFormSubmit}>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="title">Title:</label>
+                            <input className="form-control" type="text" name="title" id="title" defaultValue={gym?.title || ""} />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="location">Location:</label>
+                            <input className="form-control" type="text" name="location" id="location" defaultValue={gym?.location || ""} />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="image">Image:</label>
+                            <input className="form-control" type="text" name="image" id="image" defaultValue={gym?.image || ""} />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="price">Price:</label>
+                            <div className="input-group">
+                                <span className="input-group-text" id="price-addon">$</span>
+                                <input className="form-control" type="text" name="price" id="price" defaultValue={gym?.price || ""} />
+                            </div>
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label" htmlFor="description">Description:</label>
+                            <textarea className="form-control" type="text" name="description" id="description" defaultValue={gym?.description || ""}></textarea>
+                        </div>
+                        <div className="mb-3">
+                            <button className='btn btn-success'>Submit</button>
+                        </div>
+                    </form>
                 </div>
-                <div>
-                    <label htmlFor="location">Location:</label>
-                    <input type="text" name="location" id="location" defaultValue={gym?.location || ""} />
-                </div>
-                <button>Submit</button>
-            </form>
-            <Link to="/gyms">All Gyms</Link>
-        </>
+            </div >
+        </div >
     )
 }
 
